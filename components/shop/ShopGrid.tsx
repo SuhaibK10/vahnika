@@ -46,19 +46,19 @@ export function ShopGrid({ initialPalette, initialCategory, initialFamily }: { i
     <section className="bg-paper pb-28">
       {/* Filter bar — pinned under the header from lg up. On phones its rows would cover a quarter of the screen, so it scrolls away. */}
       <div className="relative z-30 border-b border-sand bg-paper/92 backdrop-blur-md lg:sticky lg:top-[76px]">
-        <div className="container-x flex flex-col gap-4 py-4 lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex min-w-0 flex-col gap-3 lg:flex-row lg:items-center lg:gap-2">
-            <div className="no-scrollbar -mx-5 flex items-center gap-2 overflow-x-auto px-5 lg:mx-0 lg:px-0">
-              <Pill active={!family} onClick={() => setFamily(null)}>All prints</Pill>
-              {FAMILIES.map((f) => (
-                <Pill key={f.name} active={family === f.name} onClick={() => setFamily(family === f.name ? null : f.name)}>
-                  {f.name}
-                </Pill>
-              ))}
-            </div>
-            <span className="mx-2 hidden h-6 w-px shrink-0 bg-sand lg:block" />
-            {/* Colours get their own row under the print families on phones */}
-            <div className="flex items-center gap-2.5 lg:gap-2">
+        <div className="container-x flex flex-col gap-3 py-4 lg:flex-row lg:items-center lg:gap-2">
+          <div className="no-scrollbar -mx-5 flex items-center gap-2 overflow-x-auto px-5 lg:mx-0 lg:px-0">
+            <Pill active={!family} onClick={() => setFamily(null)}>All prints</Pill>
+            {FAMILIES.map((f) => (
+              <Pill key={f.name} active={family === f.name} onClick={() => setFamily(family === f.name ? null : f.name)}>
+                {f.name}
+              </Pill>
+            ))}
+          </div>
+          <span className="mx-2 hidden h-6 w-px shrink-0 bg-sand lg:block" />
+          {/* Colours and sort share a row: under the print families on phones, filling the rest of the bar from lg up */}
+          <div className="flex items-center justify-between gap-3 lg:flex-1">
+            <div className="flex items-center gap-1.5 sm:gap-2">
               {PALETTES.map((p) => (
                 <button
                   key={p.name}
@@ -66,25 +66,25 @@ export function ShopGrid({ initialPalette, initialCategory, initialFamily }: { i
                   aria-label={`Filter by ${p.name}`}
                   aria-pressed={palette === p.name}
                   onClick={() => setPalette(palette === p.name ? null : p.name)}
-                  className={`h-7 w-7 shrink-0 rounded-full ring-offset-2 ring-offset-paper transition-all ${palette === p.name ? "ring-2 ring-forest-700" : "ring-1 ring-black/10 hover:ring-forest-500"}`}
+                  className={`h-6 w-6 shrink-0 rounded-full ring-offset-2 ring-offset-paper transition-all sm:h-7 sm:w-7 ${palette === p.name ? "ring-2 ring-forest-700" : "ring-1 ring-black/10 hover:ring-forest-500"}`}
                   style={{ background: p.hex }}
                 />
               ))}
             </div>
+            <label className="relative flex shrink-0 items-center">
+              <span className="sr-only">Sort</span>
+              <select
+                value={sort}
+                onChange={(e) => setSort(e.target.value as Sort)}
+                className="appearance-none rounded-full border border-ink/15 bg-transparent py-2.5 pl-4 pr-9 text-[0.68rem] font-medium uppercase tracking-[0.16em] outline-none sm:pl-5 sm:pr-10"
+              >
+                <option value="featured">Featured</option>
+                <option value="price-asc">Lowest price</option>
+                <option value="price-desc">Highest price</option>
+              </select>
+              <ChevronIcon className="pointer-events-none absolute right-3.5 sm:right-4" />
+            </label>
           </div>
-          <label className="relative flex items-center self-end lg:self-auto">
-            <span className="sr-only">Sort</span>
-            <select
-              value={sort}
-              onChange={(e) => setSort(e.target.value as Sort)}
-              className="appearance-none rounded-full border border-ink/15 bg-transparent py-2.5 pl-5 pr-10 text-[0.68rem] font-medium uppercase tracking-[0.16em] outline-none"
-            >
-              <option value="featured">Featured</option>
-              <option value="price-asc">Price: low to high</option>
-              <option value="price-desc">Price: high to low</option>
-            </select>
-            <ChevronIcon className="pointer-events-none absolute right-4" />
-          </label>
         </div>
       </div>
 

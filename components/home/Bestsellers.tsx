@@ -47,12 +47,9 @@ export function Bestsellers() {
 
   return (
     <section className="bg-ivory pb-10 pt-8 lg:pb-12 lg:pt-12">
-      <div className="container-x flex items-end justify-between gap-6">
+      <div className="container-x flex items-center justify-between gap-6">
         <Reveal>
-          <p className="eyebrow text-gold-deep">Bestsellers</p>
-          <h2 className="mt-4 font-display text-[clamp(2rem,3.6vw,3.4rem)] font-light leading-none">
-            The most <em className="text-forest-700">loved</em>
-          </h2>
+          <h2 className="eyebrow text-gold-deep">Bestsellers</h2>
         </Reveal>
         <div className="flex shrink-0 items-center gap-5">
           <Link href="/shop" className="link-underline hidden items-center gap-2 pb-0.5 text-[0.7rem] uppercase tracking-[0.2em] sm:inline-flex">
