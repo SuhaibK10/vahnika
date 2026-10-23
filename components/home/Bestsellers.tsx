@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { getProduct, type Product } from "@/lib/products";
 import { ProductCard } from "@/components/ProductCard";
 import { Reveal } from "@/components/Reveal";
 import { ArrowIcon } from "@/components/Icons";
+import { ScrollHint, useScrollHint } from "@/components/ScrollHint";
 
 // Curated order for the pitch; swap for the real sales ranking once orders come in.
 const BESTSELLERS = ["raat-rani", "mor-bagh", "gulabi-bagh", "kairi-jaal", "saanjh", "sarson-phool", "rangeen-tulip"].map(
@@ -17,24 +18,7 @@ const INSET = "pl-5 scroll-pl-5 sm:pl-8 sm:scroll-pl-8 lg:pl-[max(3rem,calc((100
 
 export function Bestsellers() {
   const track = useRef<HTMLUListElement>(null);
-  const [thumb, setThumb] = useState({ left: 0, width: 1 });
-  const [edges, setEdges] = useState({ start: true, end: false });
-
-  useEffect(() => {
-    const el = track.current!;
-    const update = () => {
-      const max = el.scrollWidth - el.clientWidth;
-      setThumb({ left: el.scrollLeft / el.scrollWidth, width: el.clientWidth / el.scrollWidth });
-      setEdges({ start: el.scrollLeft <= 4, end: el.scrollLeft >= max - 4 });
-    };
-    update();
-    el.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update);
-    return () => {
-      el.removeEventListener("scroll", update);
-      window.removeEventListener("resize", update);
-    };
-  }, []);
+  const scroll = useScrollHint(track);
 
   // One card (plus the gap) per click
   function step(dir: 1 | -1) {
@@ -56,10 +40,10 @@ export function Bestsellers() {
             See all prints <ArrowIcon />
           </Link>
           <div className="hidden gap-2 lg:flex">
-            <button onClick={() => step(-1)} disabled={edges.start} aria-label="Previous prints" className={arrow}>
+            <button onClick={() => step(-1)} disabled={scroll.start} aria-label="Previous prints" className={arrow}>
               <ArrowIcon className="rotate-180" />
             </button>
-            <button onClick={() => step(1)} disabled={edges.end} aria-label="Next prints" className={arrow}>
+            <button onClick={() => step(1)} disabled={scroll.end} aria-label="Next prints" className={arrow}>
               <ArrowIcon />
             </button>
           </div>
@@ -94,12 +78,7 @@ export function Bestsellers() {
       </Reveal>
 
       <div className="container-x mt-4 flex items-center gap-6">
-        <div className="relative h-px flex-1 bg-sand">
-          <span
-            className="absolute -top-px h-[3px] rounded-full bg-forest-700 transition-[left,width] duration-300"
-            style={{ left: `${thumb.left * 100}%`, width: `${thumb.width * 100}%` }}
-          />
-        </div>
+        <ScrollHint left={scroll.left} width={scroll.width} className="flex-1" />
         <Link href="/shop" className="inline-flex shrink-0 items-center gap-2 text-[0.7rem] uppercase tracking-[0.2em] sm:hidden">
           See all <ArrowIcon />
         </Link>

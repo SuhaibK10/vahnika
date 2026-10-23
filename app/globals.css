@@ -36,7 +36,7 @@
 @layer base {
   :root {
     /* Height of the mobile tab bar; zero on desktop, where it is hidden */
-    --mobile-nav-h: calc(3.5rem + env(safe-area-inset-bottom, 0px));
+    --mobile-nav-h: calc(4rem + env(safe-area-inset-bottom, 0px));
   }
   @media (min-width: 64rem) {
     :root {

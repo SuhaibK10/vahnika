@@ -11,7 +11,7 @@ const TABS = [
   { href: "/shop", label: "Shop", Icon: GridIcon, match: ["/shop", "/products"] },
 ];
 
-const tab = "flex flex-1 flex-col items-center justify-center gap-1 transition-colors duration-300";
+const tab = "flex flex-1 touch-manipulation select-none flex-col items-center justify-center gap-1 transition-colors duration-300 active:bg-sand/70";
 const tone = (active: boolean) => (active ? "text-gold-deep" : "text-ink/65 hover:text-forest-700");
 const label = "text-[0.56rem] font-medium uppercase tracking-[0.16em]";
 
@@ -21,7 +21,7 @@ export function MobileNav() {
 
   return (
     <nav aria-label="Quick links" className="mobile-nav-bar fixed inset-x-0 bottom-0 z-50 border-t border-sand bg-paper/95 backdrop-blur-md lg:hidden">
-      <div className="flex h-14">
+      <div className="flex h-16">
         {TABS.map(({ href, label: text, Icon, match }) => {
           const active = href === "/" ? pathname === "/" : match.some((m) => pathname.startsWith(m));
           return (

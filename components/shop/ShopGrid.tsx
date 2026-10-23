@@ -2,12 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { FAMILIES, PALETTES, PRODUCTS, fromPrice, type Category, type Palette, type PrintFamily } from "@/lib/products";
 import { MEDIA } from "@/lib/media";
 import { ProductCard } from "@/components/ProductCard";
 import { ProductListItem } from "@/components/shop/ProductListItem";
 import { Reveal } from "@/components/Reveal";
+import { ScrollHint, useScrollHint } from "@/components/ScrollHint";
 import { ArrowIcon, ChevronIcon, CloseIcon, GridIcon, ListIcon } from "@/components/Icons";
 
 type Sort = "featured" | "price-asc" | "price-desc";
@@ -25,6 +26,8 @@ export function ShopGrid({ initialPalette, initialCategory, initialFamily }: { i
   const [family, setFamily] = useState<PrintFamily | null>(pick(initialFamily, FAMILIES.map((f) => f.name)));
   const [sort, setSort] = useState<Sort>("featured");
   const [view, setView] = useState<View>("grid");
+  const familyRow = useRef<HTMLDivElement>(null);
+  const familyScroll = useScrollHint(familyRow);
 
   const results = useMemo(() => {
     const list = PRODUCTS.filter(
@@ -47,7 +50,7 @@ export function ShopGrid({ initialPalette, initialCategory, initialFamily }: { i
       {/* Filter bar — pinned under the header from lg up. On phones its rows would cover a quarter of the screen, so it scrolls away. */}
       <div className="relative z-30 border-b border-sand bg-paper/92 backdrop-blur-md lg:sticky lg:top-[76px]">
         <div className="container-x flex flex-col gap-3 py-4 lg:flex-row lg:items-center lg:gap-2">
-          <div className="no-scrollbar -mx-5 flex items-center gap-2 overflow-x-auto px-5 lg:mx-0 lg:px-0">
+          <div ref={familyRow} className="no-scrollbar -mx-5 flex items-center gap-2 overflow-x-auto px-5 lg:mx-0 lg:px-0">
             <Pill active={!family} onClick={() => setFamily(null)}>All prints</Pill>
             {FAMILIES.map((f) => (
               <Pill key={f.name} active={family === f.name} onClick={() => setFamily(family === f.name ? null : f.name)}>
@@ -55,6 +58,8 @@ export function ShopGrid({ initialPalette, initialCategory, initialFamily }: { i
               </Pill>
             ))}
           </div>
+          {/* Only when the families run off-screen (phones): shows there is more to swipe to */}
+          {familyScroll.width < 0.99 && <ScrollHint left={familyScroll.left} width={familyScroll.width} className="-mt-1 lg:hidden" />}
           <span className="mx-2 hidden h-6 w-px shrink-0 bg-sand lg:block" />
           {/* Colours and sort share a row: under the print families on phones, filling the rest of the bar from lg up */}
           <div className="flex items-center justify-between gap-3 lg:flex-1">
