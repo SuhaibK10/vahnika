@@ -6,8 +6,8 @@ import { Reveal } from "@/components/Reveal";
 import { Newsletter } from "@/components/Newsletter";
 
 export const metadata: Metadata = {
-  title: "Bed to Body — Cotton Loungewear",
-  description: "The prints you sleep in, cut into easy cotton loungewear. Vahnika apparel is coming soon — join the waitlist.",
+  title: "Bed to Body: Cotton Loungewear",
+  description: "The prints you sleep in, cut into easy cotton loungewear. Vahnika apparel is coming soon. Join the waitlist.",
 };
 
 const PIECES = [
@@ -31,11 +31,11 @@ export default function BedToBodyPage() {
             From bed <em className="text-gold-soft">to body.</em>
           </h1>
           <p className="animate-fade-up mt-7 max-w-xl text-[1.08rem] leading-relaxed text-ivory/75 [animation-delay:300ms]">
-            The prints you sleep in, cut into easy cotton loungewear for the slowest hours of the day. Match your bed —
+            The prints you sleep in, cut into easy cotton loungewear for the slowest hours of the day. Match your bed,
             or don&apos;t. Either way, it will be the softest thing you wear all week.
           </p>
           <div className="animate-fade-up mt-10 w-full max-w-md [animation-delay:450ms]">
-            <Newsletter cta="Join the waitlist" success="You're on the list — we'll write the moment it lands." />
+            <Newsletter cta="Join the waitlist" success="You're on the list. We'll write the moment it lands." />
             <p className="mt-3 text-xs text-ivory/50">Waitlist members get first access and early pricing.</p>
           </div>
         </div>
@@ -80,7 +80,7 @@ export default function BedToBodyPage() {
           </h2>
           <p className="mt-6 text-[1.03rem] leading-[1.9] text-ink/72">
             Some prints feel too good to leave on the bed. So we&apos;re taking the cotton, colours and craft of Vahnika
-            bed linen and cutting them into pieces you can live in — from the first chai of the morning to the last page
+            bed linen and cutting them into pieces you can live in, from the first chai of the morning to the last page
             of the night.
           </p>
         </Reveal>

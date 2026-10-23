@@ -83,7 +83,7 @@ export default async function ArticlePage({ params }: { params: Params }) {
           <div className="mx-auto flex max-w-[720px] items-center gap-4 border-t border-sand pb-20 pt-10">
             <Emblem className="h-12 w-12 shrink-0" vColor="#1A4D3C" />
             <p className="text-sm text-muted">
-              Written for the <span className="text-ink">Vahnika Journal</span> — notes on rest, craft and the art of the bed.
+              Written for the <span className="text-ink">Vahnika Journal</span>: notes on rest, craft and the art of the bed.
             </p>
           </div>
         </div>

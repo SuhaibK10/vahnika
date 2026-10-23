@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { MEDIA } from "@/lib/media";
-import { PRODUCTS } from "@/lib/products";
+import { getProduct } from "@/lib/products";
 import { SITE } from "@/lib/site";
 import { Reveal } from "@/components/Reveal";
 import { Emblem } from "@/components/Emblem";
@@ -15,16 +15,16 @@ export const metadata: Metadata = {
 
 const VALUES = [
   ["Pure, always", "Only cotton touches your skin. No polyester blends to trap heat, no shortcuts to save a rupee."],
-  ["Rooted in craft", "Our prints draw on centuries of Jaipuri printing — redrawn with care, never copied carelessly."],
+  ["Rooted in craft", "Our prints draw on centuries of Jaipuri printing, redrawn with care and never copied carelessly."],
   ["Made to be lived in", "Bed linen for real homes: washed often, slept on daily, climbed on by children and the occasional cat."],
   ["Honest by design", "Fair, everyday prices. Real photographs. Clear policies. No countdown timers, ever."],
 ];
 
 const PROCESS = [
-  { step: "Drawn", text: "Each print begins as a story — a garden, a window, a season — and is drawn and coloured for the way Indian homes look today.", image: PRODUCTS[0].images[2] },
+  { step: "Drawn", text: "Each print begins as a story about a garden, a window or a season, and is drawn and coloured for the way Indian homes look today.", image: getProduct("mor-bagh")!.images[2] },
   { step: "Printed", text: "Patterns are printed onto pure cotton in the printing traditions of Rajasthan, so colour sits crisply in the weave.", image: MEDIA.printingBlocks },
   { step: "Finished", text: "Sheets are finished, checked and paired with matching pillow covers, then folded the way you'd fold them at home.", image: MEDIA.sheetFoldsWarm },
-  { step: "Delivered", text: "Wrapped, boxed and sent free across India — ready to make the bed the same evening.", image: MEDIA.giftBox },
+  { step: "Delivered", text: "Wrapped, boxed and sent free across India, ready to make the bed the same evening.", image: MEDIA.giftBox },
 ];
 
 export default function OurStoryPage() {
@@ -53,7 +53,7 @@ export default function OurStoryPage() {
           <Reveal className="space-y-6 text-[1.08rem] leading-[1.9] text-ink/75 lg:col-span-6 lg:col-start-7" delay={150}>
             <p>
               Vahnika began with a simple frustration. Beautiful Indian bed linen was either precious and out of reach, or
-              affordable and loud — shiny polyester, garish colours, prints that shouted across the room.
+              affordable and loud: shiny polyester, garish colours, prints that shouted across the room.
             </p>
             <p>
               We wanted something in between: the craft and colour of a Jaipur heritage hotel, at a price you don&apos;t
@@ -61,7 +61,7 @@ export default function OurStoryPage() {
               stories. A bed you look forward to at the end of a long day.
             </p>
             <p className="font-display text-[1.7rem] italic leading-snug text-forest-700">
-              Nothing loud, nothing hurried — just the quiet luxury of a well-made bed.
+              Nothing loud, nothing hurried. Just the quiet luxury of a well-made bed.
             </p>
           </Reveal>
         </div>
@@ -83,7 +83,7 @@ export default function OurStoryPage() {
             </h2>
             <p className="mt-6 text-[1.05rem] leading-[1.9] text-ivory/72">
               Our mark is a V cradling two young leaves, inside a single golden ring. It stands for the things we care
-              about most: growth, patience and care — the slow way good things are made. The emerald is the colour of a
+              about most: growth, patience and care, the slow way good things are made. The emerald is the colour of a
               courtyard garden after rain; the gold, the lamp that is lit at dusk.
             </p>
           </Reveal>
@@ -141,8 +141,8 @@ export default function OurStoryPage() {
             <h2 className="display-lg mt-5 font-light">The pink city&apos;s <em className="text-gold-soft">long memory</em></h2>
             <p className="mt-6 text-[1.05rem] leading-[1.9] text-ivory/72">
               Outside Jaipur, the towns of Sanganer and Bagru have printed cloth for centuries. Their florals, lattices
-              and borders once travelled the world as chintz and calico. Our prints are a love letter to that vocabulary
-              — redrawn for the homes we live in now.
+              and borders once travelled the world as chintz and calico. Our prints are a love letter to that vocabulary,
+              redrawn for the homes we live in now.
             </p>
             <Link href="/journal/a-short-story-of-the-jaipuri-print" className="link-underline mt-8 inline-flex items-center gap-2 self-start pb-0.5 text-[0.7rem] uppercase tracking-[0.2em] text-gold-soft">
               A short story of the Jaipuri print <ArrowIcon />

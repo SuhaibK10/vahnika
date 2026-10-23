@@ -11,11 +11,14 @@ type CartContextValue = {
   count: number;
   subtotal: number;
   isOpen: boolean;
+  /** False until the saved bag has been read from localStorage */
+  ready: boolean;
   open: () => void;
   close: () => void;
-  add: (slug: string, sizeId: string, qty?: number) => void;
+  add: (slug: string, sizeId: string, qty?: number, openBag?: boolean) => void;
   setQty: (slug: string, sizeId: string, qty: number) => void;
   remove: (slug: string, sizeId: string) => void;
+  clear: () => void;
 };
 
 const CartContext = createContext<CartContextValue | null>(null);
@@ -45,13 +48,13 @@ export function CartProvider({ children }: { children: ReactNode }) {
     document.documentElement.style.overflow = isOpen ? "hidden" : "";
   }, [isOpen]);
 
-  const add = useCallback((slug: string, sizeId: string, qty = 1) => {
+  const add = useCallback((slug: string, sizeId: string, qty = 1, openBag = true) => {
     setItems((prev) => {
       const hit = prev.find((i) => i.slug === slug && i.sizeId === sizeId);
       if (hit) return prev.map((i) => (i === hit ? { ...i, qty: i.qty + qty } : i));
       return [...prev, { slug, sizeId, qty }];
     });
-    setOpen(true);
+    if (openBag) setOpen(true);
   }, []);
 
   const setQty = useCallback((slug: string, sizeId: string, qty: number) => {
@@ -77,13 +80,15 @@ export function CartProvider({ children }: { children: ReactNode }) {
       count: lines.reduce((n, l) => n + l.qty, 0),
       subtotal: lines.reduce((n, l) => n + l.lineTotal, 0),
       isOpen,
+      ready: hydrated,
       open: () => setOpen(true),
       close: () => setOpen(false),
       add,
       setQty,
       remove,
+      clear: () => setItems([]),
     };
-  }, [items, isOpen, add, setQty, remove]);
+  }, [items, isOpen, hydrated, add, setQty, remove]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }

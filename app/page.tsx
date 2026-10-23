@@ -1,32 +1,20 @@
 import { Hero } from "@/components/home/Hero";
-import { CollectionShowcase } from "@/components/home/CollectionShowcase";
+import { Bestsellers } from "@/components/home/Bestsellers";
 import { Testimonials } from "@/components/home/Testimonials";
 import {
   BedroomEditorial,
-  BedToBodyTeaser,
-  CraftSection,
-  GiftingSection,
-  JournalPreview,
   PaletteRow,
-  PrintLibraryTeaser,
   ServiceRow,
   SocialStrip,
-  ValuesMarquee,
 } from "@/components/home/Sections";
 
 export default function HomePage() {
   return (
     <>
       <Hero />
-      <ValuesMarquee />
-      <BedroomEditorial />
-      <CollectionShowcase />
-      <PrintLibraryTeaser />
+      <Bestsellers />
       <PaletteRow />
-      <CraftSection />
-      <BedToBodyTeaser />
-      <GiftingSection />
-      <JournalPreview />
+      <BedroomEditorial />
       <Testimonials />
       <SocialStrip />
       <ServiceRow />

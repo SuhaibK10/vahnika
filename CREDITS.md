@@ -32,3 +32,5 @@ Lifestyle photography is from [Pexels](https://www.pexels.com/license/), free to
 | `woman-sunlit-bed.jpg` | https://www.pexels.com/photo/5852500/ |
 
 Product images in `public/images/products/` are Vahnika's own listing images, cropped for the site.
+
+Fonts in `app/fonts/` are Cormorant Garamond and Jost from [Google Fonts](https://fonts.google.com), self-hosted under the [SIL Open Font License 1.1](https://openfontlicense.org).

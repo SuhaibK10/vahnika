@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useCart } from "./CartContext";
 import { formatINR } from "@/lib/site";
 import { CloseIcon, MinusIcon, PlusIcon, ArrowIcon, CheckIcon } from "@/components/Icons";
@@ -10,17 +10,15 @@ import { Emblem } from "@/components/Emblem";
 
 export function CartDrawer() {
   const { lines, subtotal, count, isOpen, close, setQty, remove } = useCart();
-  const [note, setNote] = useState(false);
 
   useEffect(() => {
-    if (!isOpen) setNote(false);
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && close();
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [isOpen, close]);
 
   return (
-    <div className={`fixed inset-0 z-[80] ${isOpen ? "" : "pointer-events-none"}`} aria-hidden={!isOpen}>
+    <div className={`fixed inset-0 z-[80] overflow-hidden ${isOpen ? "" : "pointer-events-none"}`} aria-hidden={!isOpen}>
       <div
         onClick={close}
         className={`absolute inset-0 bg-forest-950/50 backdrop-blur-[2px] transition-opacity duration-500 ${isOpen ? "opacity-100" : "opacity-0"}`}
@@ -28,7 +26,7 @@ export function CartDrawer() {
       <aside
         role="dialog"
         aria-label="Your bag"
-        className={`absolute right-0 top-0 flex h-full w-full max-w-[440px] flex-col bg-paper shadow-2xl transition-transform duration-700 ease-[var(--ease-silk)] ${isOpen ? "translate-x-0" : "translate-x-full"}`}
+        className={`absolute right-0 top-0 flex h-full w-full max-w-[440px] flex-col bg-paper transition-transform duration-700 ease-[var(--ease-silk)] ${isOpen ? "translate-x-0 shadow-2xl" : "translate-x-full"}`}
       >
         <header className="flex items-center justify-between border-b border-sand px-6 py-5">
           <div>
@@ -87,15 +85,10 @@ export function CartDrawer() {
                 <span className="eyebrow text-muted">Subtotal</span>
                 <span className="font-display text-3xl">{formatINR(subtotal)}</span>
               </div>
-              <p className="mt-1 text-xs text-muted">Inclusive of all taxes. Shipping calculated at checkout — always free.</p>
-              <button onClick={() => setNote(true)} className="btn btn-gold mt-5 w-full">
+              <p className="mt-1 text-xs text-muted">Inclusive of all taxes. Shipping is always free.</p>
+              <Link href="/checkout" onClick={close} className="btn btn-gold mt-5 w-full">
                 Proceed to checkout <ArrowIcon />
-              </button>
-              {note && (
-                <p className="mt-3 rounded-lg bg-sand/60 px-4 py-3 text-center text-xs text-muted">
-                  Design preview — secure checkout (UPI, cards, wallets &amp; COD via Razorpay) is wired up in the build phase.
-                </p>
-              )}
+              </Link>
               <p className="mt-4 text-center text-[0.68rem] tracking-[0.18em] text-muted">UPI · VISA · MASTERCARD · RUPAY · COD</p>
             </footer>
           </>

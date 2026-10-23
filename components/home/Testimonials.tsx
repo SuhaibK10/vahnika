@@ -7,7 +7,7 @@ import { StarIcon } from "@/components/Icons";
 // PLACEHOLDER reviews for the pitch — replace with verified customer reviews before launch.
 const QUOTES = [
   {
-    text: "The print looks even better in person — like something from a heritage hotel, but soft enough that my kids refuse to get out of bed.",
+    text: "The print looks even better in person, like something from a heritage hotel. And it's soft enough that my kids refuse to get out of bed.",
     name: "Ananya R.",
     place: "Bengaluru",
     product: "Mor Bagh, King",
@@ -19,7 +19,7 @@ const QUOTES = [
     product: "Neela Jharokha, Queen",
   },
   {
-    text: "I bought it as a griha pravesh gift and ended up ordering one for myself. The box, the note, the fabric — everything felt considered.",
+    text: "I bought it as a griha pravesh gift and ended up ordering one for myself. The box, the note, the fabric: everything felt considered.",
     name: "Farah S.",
     place: "Mumbai",
     product: "Gulabi Bagh, King",

@@ -7,7 +7,7 @@ import { ArrowIcon } from "@/components/Icons";
 
 export const metadata: Metadata = {
   title: "The Journal",
-  description: "Notes on rest, craft and the art of the bed — from the Vahnika journal.",
+  description: "Notes on rest, craft and the art of the bed, from the Vahnika journal.",
 };
 
 export default function JournalPage() {
@@ -24,7 +24,7 @@ export default function JournalPage() {
               Notes from <em className="text-forest-700">the bedroom</em>
             </h1>
             <p className="mx-auto mt-6 max-w-xl text-[1.03rem] leading-relaxed text-ink/70">
-              Slow reads on rest, craft and the art of a well-made bed. Pour the chai — this is the unhurried part of the
+              Slow reads on rest, craft and the art of a well-made bed. Pour the chai. This is the unhurried part of the
               internet.
             </p>
             <div className="mt-9 flex flex-wrap justify-center gap-2">

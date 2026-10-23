@@ -26,7 +26,7 @@ export default function PrintsPage() {
             Named, <em className="text-gold-soft">never numbered.</em>
           </h1>
           <p className="animate-fade-up mt-7 max-w-2xl text-[1.08rem] leading-relaxed text-ivory/75 [animation-delay:300ms]">
-            Every Vahnika print begins with a place, a season or a memory — a Rajput garden, a jasmine that blooms after
+            Every Vahnika print begins with a place, a season or a memory: a Rajput garden, a jasmine that blooms after
             dark, the arched window of a Jaipur palace. Here are their stories.
           </p>
           <div className="animate-fade-up mt-10 flex flex-wrap justify-center gap-3 [animation-delay:450ms]">

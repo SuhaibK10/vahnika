@@ -1,19 +1,16 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import type { Product } from "@/lib/products";
-import { SITE, formatINR } from "@/lib/site";
+import { SITE, deliveryDate, formatINR } from "@/lib/site";
 import { useCart } from "@/components/cart/CartContext";
+import { HeartButton } from "@/components/wishlist/HeartButton";
 import { ArrowIcon, CheckIcon, CottonIcon, MinusIcon, PlusIcon, ReturnIcon, ShieldIcon, TruckIcon, WhatsAppIcon } from "@/components/Icons";
-
-function deliveryDate() {
-  const d = new Date();
-  d.setDate(d.getDate() + 4);
-  return d.toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "long" });
-}
 
 export function BuyBox({ product }: { product: Product }) {
   const { add } = useCart();
+  const router = useRouter();
   const [sizeId, setSizeId] = useState(product.sizes[0].id);
   const [qty, setQty] = useState(1);
   const [pin, setPin] = useState("");
@@ -30,9 +27,15 @@ export function BuyBox({ product }: { product: Product }) {
     return () => io.disconnect();
   }, []);
 
+  // Lets the floating WhatsApp button lift clear of the sticky bar
+  useEffect(() => {
+    document.documentElement.classList.toggle("buybar-open", stickyVisible);
+    return () => document.documentElement.classList.remove("buybar-open");
+  }, [stickyVisible]);
+
   function checkPin(e: FormEvent) {
     e.preventDefault();
-    setEta(/^[1-9]\d{5}$/.test(pin) ? deliveryDate() : "invalid");
+    setEta(/^[1-9]\d{5}$/.test(pin) ? deliveryDate(4) : "invalid");
   }
 
   return (
@@ -87,8 +90,16 @@ export function BuyBox({ product }: { product: Product }) {
         <button type="button" onClick={() => add(product.slug, sizeId, qty)} className="btn btn-forest flex-1">
           Add to bag · {formatINR(size.price * qty)}
         </button>
+        <HeartButton slug={product.slug} name={product.name} className="w-[52px] shrink-0 border border-ink/15 hover:border-forest-700" />
       </div>
-      <button type="button" onClick={() => add(product.slug, sizeId, qty)} className="btn btn-gold mt-3 w-full">
+      <button
+        type="button"
+        onClick={() => {
+          add(product.slug, sizeId, qty, false);
+          router.push("/checkout");
+        }}
+        className="btn btn-gold mt-3 w-full"
+      >
         Buy now <ArrowIcon />
       </button>
 
@@ -141,8 +152,8 @@ export function BuyBox({ product }: { product: Product }) {
 
       {/* Mobile sticky add-to-bag */}
       <div
-        className={`fixed inset-x-0 bottom-0 z-40 border-t border-sand bg-paper/95 px-5 py-3 backdrop-blur-md transition-transform duration-500 lg:hidden ${
-          stickyVisible ? "translate-y-0" : "translate-y-full"
+        className={`fixed inset-x-0 bottom-[var(--mobile-nav-h)] z-40 border-t border-sand bg-paper/95 px-5 py-3 backdrop-blur-md transition-[translate,opacity] duration-500 lg:hidden ${
+          stickyVisible ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
         }`}
       >
         <div className="flex items-center gap-4">

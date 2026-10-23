@@ -21,16 +21,16 @@ const COLUMNS = [
       { href: "/our-story", label: "Our story" },
       { href: "/journal", label: "The Journal" },
       { href: "/journal/a-short-story-of-the-jaipuri-print", label: "Craft & heritage" },
-      { href: "/#gifting", label: "Gifting" },
     ],
   },
   {
     title: "Help",
     links: [
+      { href: "/track-order", label: "Track your order" },
+      { href: "/policies/shipping", label: "Shipping & delivery" },
+      { href: "/policies/returns", label: "Returns & exchanges" },
+      { href: "/help", label: "FAQs & contact" },
       { href: "/journal/how-to-care-for-printed-cotton", label: "Care guide" },
-      { href: "/journal/thread-count-decoded", label: "Fabric guide" },
-      { href: "/shop", label: "Shipping & delivery" },
-      { href: "/shop", label: "Returns & exchanges" },
     ],
   },
 ];
@@ -45,7 +45,7 @@ export function Footer() {
             Slow-living notes, new prints, <em className="text-gold-soft">first looks.</em>
           </h2>
           <p className="mt-5 max-w-md text-[0.95rem] leading-relaxed text-ivory/65">
-            One letter a month — never more. Stories behind our prints, bedroom rituals and early access to new launches.
+            One letter a month, never more. Stories behind our prints, bedroom rituals and early access to new launches.
           </p>
           <div className="mt-8 max-w-md">
             <Newsletter />
@@ -97,8 +97,18 @@ export function Footer() {
       </div>
       <div className="container-x flex flex-col items-center justify-between gap-2 border-t border-ivory/10 py-6 text-[0.72rem] text-ivory/45 sm:flex-row">
         <p>© {new Date().getFullYear()} Vahnika Home &amp; Apparel. Designed in India.</p>
-        <p>Privacy · Terms · Shipping · Returns</p>
-        <p>Website by <span className="text-gold/80">Weblicate</span></p>
+        <nav aria-label="Policies" className="flex gap-4">
+          {[
+            ["/policies/privacy", "Privacy"],
+            ["/policies/terms", "Terms"],
+            ["/policies/shipping", "Shipping"],
+            ["/policies/returns", "Returns"],
+          ].map(([href, label]) => (
+            <Link key={href} href={href} className="hover:text-ivory">
+              {label}
+            </Link>
+          ))}
+        </nav>
       </div>
     </footer>
   );

@@ -14,21 +14,19 @@ export default async function ShopPage({ searchParams }: { searchParams: SearchP
 
   return (
     <>
+      {/* Kept short so the prints start near the top of the screen */}
       <section className="border-b border-sand bg-paper">
-        <div className="container-x grid gap-8 pb-14 pt-16 lg:grid-cols-12 lg:items-end lg:pb-20 lg:pt-24">
+        <div className="container-x flex flex-col gap-2 pb-6 pt-6 sm:flex-row sm:items-end sm:justify-between sm:gap-8 lg:pb-8 lg:pt-10">
           {/* Above the fold: CSS-only entrance so it paints before hydration */}
-          <div className="animate-fade-up lg:col-span-7">
+          <div className="animate-fade-up">
             <p className="eyebrow text-gold-deep">Bed linen · {PRODUCTS.length} prints</p>
-            <h1 className="display-xl mt-5 font-light">
+            <h1 className="display-md mt-2 font-light">
               The <em className="text-forest-700">Collection</em>
             </h1>
           </div>
-          <div className="animate-fade-up lg:col-span-5 [animation-delay:120ms]">
-            <p className="text-[1.03rem] leading-[1.85] text-ink/70">
-              Pure cotton bedsheet sets and quilts, each in a print with its own name and story. Every set arrives with
-              matching pillow covers — and ships free, anywhere in India.
-            </p>
-          </div>
+          <p className="animate-fade-up text-[0.95rem] text-ink/65 sm:max-w-sm sm:text-right [animation-delay:120ms]">
+            Every set comes with matching pillow covers and ships free across India.
+          </p>
         </div>
       </section>
       <ShopGrid

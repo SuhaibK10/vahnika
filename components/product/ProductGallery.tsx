@@ -37,7 +37,7 @@ export function ProductGallery({ images, name }: { images: StaticImageData[]; na
           <Image
             key={i}
             src={img}
-            alt={i === 0 ? `${name} — full set on a bed` : `${name} — print detail ${i}`}
+            alt={i === 0 ? `${name}, full set on a bed` : `${name}, print detail ${i}`}
             fill
             priority={i === 0}
             placeholder="blur"

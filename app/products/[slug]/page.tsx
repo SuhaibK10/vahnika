@@ -19,14 +19,14 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const product = getProduct((await params).slug);
   if (!product) return {};
   return {
-    title: `${product.name} — ${product.meaning}`,
+    title: `${product.name}: ${product.meaning}`,
     description: `${product.short} ${product.print}, pure cotton. ${product.contents}.`,
   };
 }
 
 // PLACEHOLDER reviews for the pitch — replace with verified reviews at launch.
 const REVIEWS = [
-  { name: "Priya M.", place: "Pune", title: "Like sleeping in a garden", text: "The colours are rich without being loud, and the cotton feels cool even without the AC. Washed it four times — no fading." },
+  { name: "Priya M.", place: "Pune", title: "Like sleeping in a garden", text: "The colours are rich without being loud, and the cotton feels cool even without the AC. Washed it four times, no fading." },
   { name: "Arjun K.", place: "Jaipur", title: "Looks far more expensive", text: "Gifted this to my parents for their anniversary. My mother called it 'hotel wali chadar'. That's a five-star review in our family." },
 ];
 
@@ -45,7 +45,7 @@ export default async function ProductPage({ params }: { params: Params }) {
       title: "Fabric & feel",
       body: (
         <ul className="space-y-2">
-          <li>100% cotton — breathable, skin-friendly and softer with every wash.</li>
+          <li>100% cotton: breathable, skin-friendly and softer with every wash.</li>
           <li>{product.print}.</li>
           <li>Colours: {product.colours.map((c) => c.name).join(", ")}.</li>
         </ul>

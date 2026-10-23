@@ -6,10 +6,12 @@ import { useMemo, useState } from "react";
 import { FAMILIES, PALETTES, PRODUCTS, fromPrice, type Category, type Palette, type PrintFamily } from "@/lib/products";
 import { MEDIA } from "@/lib/media";
 import { ProductCard } from "@/components/ProductCard";
+import { ProductListItem } from "@/components/shop/ProductListItem";
 import { Reveal } from "@/components/Reveal";
-import { ArrowIcon, ChevronIcon, CloseIcon, GiftIcon } from "@/components/Icons";
+import { ArrowIcon, ChevronIcon, CloseIcon, GridIcon, ListIcon } from "@/components/Icons";
 
 type Sort = "featured" | "price-asc" | "price-desc";
+type View = "grid" | "list";
 const CATEGORIES: Category[] = ["Bedsheet Sets", "Quilts"];
 
 function pick<T extends string>(value: string | undefined, allowed: readonly T[]) {
@@ -18,9 +20,11 @@ function pick<T extends string>(value: string | undefined, allowed: readonly T[]
 
 export function ShopGrid({ initialPalette, initialCategory, initialFamily }: { initialPalette?: string; initialCategory?: string; initialFamily?: string }) {
   const [palette, setPalette] = useState<Palette | null>(pick(initialPalette, PALETTES.map((p) => p.name)));
+  // No category buttons; the footer's "Bedsheet sets" and "Quilts" links still filter via ?category=
   const [category, setCategory] = useState<Category | null>(pick(initialCategory, CATEGORIES));
   const [family, setFamily] = useState<PrintFamily | null>(pick(initialFamily, FAMILIES.map((f) => f.name)));
   const [sort, setSort] = useState<Sort>("featured");
+  const [view, setView] = useState<View>("grid");
 
   const results = useMemo(() => {
     const list = PRODUCTS.filter(
@@ -40,71 +44,98 @@ export function ShopGrid({ initialPalette, initialCategory, initialFamily }: { i
 
   return (
     <section className="bg-paper pb-28">
-      {/* Filter bar */}
-      <div className="sticky top-16 z-30 border-b border-sand bg-paper/92 backdrop-blur-md lg:top-[76px]">
+      {/* Filter bar — pinned under the header from lg up. On phones its rows would cover a quarter of the screen, so it scrolls away. */}
+      <div className="relative z-30 border-b border-sand bg-paper/92 backdrop-blur-md lg:sticky lg:top-[76px]">
         <div className="container-x flex flex-col gap-4 py-4 lg:flex-row lg:items-center lg:justify-between">
-          <div className="no-scrollbar -mx-5 flex items-center gap-2 overflow-x-auto px-5 lg:mx-0 lg:px-0">
-            <Pill active={!family} onClick={() => setFamily(null)}>All prints</Pill>
-            {FAMILIES.map((f) => (
-              <Pill key={f.name} active={family === f.name} onClick={() => setFamily(family === f.name ? null : f.name)}>
-                {f.name}
-              </Pill>
-            ))}
-            <span className="mx-2 h-6 w-px shrink-0 bg-sand" />
-            {PALETTES.map((p) => (
-              <button
-                key={p.name}
-                title={p.name}
-                aria-label={`Filter by ${p.name}`}
-                aria-pressed={palette === p.name}
-                onClick={() => setPalette(palette === p.name ? null : p.name)}
-                className={`h-7 w-7 shrink-0 rounded-full ring-offset-2 ring-offset-paper transition-all ${palette === p.name ? "ring-2 ring-forest-700" : "ring-1 ring-black/10 hover:ring-forest-500"}`}
-                style={{ background: p.hex }}
-              />
-            ))}
-          </div>
-          <div className="flex items-center justify-between gap-4 lg:justify-end">
-            <div className="flex items-center gap-2">
-              {CATEGORIES.map((c) => (
-                <Pill key={c} active={category === c} onClick={() => setCategory(category === c ? null : c)}>
-                  {c}
+          <div className="flex min-w-0 flex-col gap-3 lg:flex-row lg:items-center lg:gap-2">
+            <div className="no-scrollbar -mx-5 flex items-center gap-2 overflow-x-auto px-5 lg:mx-0 lg:px-0">
+              <Pill active={!family} onClick={() => setFamily(null)}>All prints</Pill>
+              {FAMILIES.map((f) => (
+                <Pill key={f.name} active={family === f.name} onClick={() => setFamily(family === f.name ? null : f.name)}>
+                  {f.name}
                 </Pill>
               ))}
             </div>
-            <label className="relative flex items-center">
-              <span className="sr-only">Sort</span>
-              <select
-                value={sort}
-                onChange={(e) => setSort(e.target.value as Sort)}
-                className="appearance-none rounded-full border border-ink/15 bg-transparent py-2.5 pl-5 pr-10 text-[0.68rem] font-medium uppercase tracking-[0.16em] outline-none"
-              >
-                <option value="featured">Featured</option>
-                <option value="price-asc">Price: low to high</option>
-                <option value="price-desc">Price: high to low</option>
-              </select>
-              <ChevronIcon className="pointer-events-none absolute right-4" />
-            </label>
+            <span className="mx-2 hidden h-6 w-px shrink-0 bg-sand lg:block" />
+            {/* Colours get their own row under the print families on phones */}
+            <div className="flex items-center gap-2.5 lg:gap-2">
+              {PALETTES.map((p) => (
+                <button
+                  key={p.name}
+                  title={p.name}
+                  aria-label={`Filter by ${p.name}`}
+                  aria-pressed={palette === p.name}
+                  onClick={() => setPalette(palette === p.name ? null : p.name)}
+                  className={`h-7 w-7 shrink-0 rounded-full ring-offset-2 ring-offset-paper transition-all ${palette === p.name ? "ring-2 ring-forest-700" : "ring-1 ring-black/10 hover:ring-forest-500"}`}
+                  style={{ background: p.hex }}
+                />
+              ))}
+            </div>
           </div>
+          <label className="relative flex items-center self-end lg:self-auto">
+            <span className="sr-only">Sort</span>
+            <select
+              value={sort}
+              onChange={(e) => setSort(e.target.value as Sort)}
+              className="appearance-none rounded-full border border-ink/15 bg-transparent py-2.5 pl-5 pr-10 text-[0.68rem] font-medium uppercase tracking-[0.16em] outline-none"
+            >
+              <option value="featured">Featured</option>
+              <option value="price-asc">Price: low to high</option>
+              <option value="price-desc">Price: high to low</option>
+            </select>
+            <ChevronIcon className="pointer-events-none absolute right-4" />
+          </label>
         </div>
       </div>
 
       <div className="container-x">
-        <div className="flex items-center justify-between py-8 text-sm text-muted">
-          <p>
-            Showing <span className="text-ink">{results.length}</span> {results.length === 1 ? "print" : "prints"}
-            {palette && <> in <em className="font-display text-base text-forest-700">{palette}</em></>}
-          </p>
-          {filtered && (
-            <button onClick={clear} className="flex items-center gap-1.5 text-xs uppercase tracking-[0.16em] hover:text-ink">
-              <CloseIcon width={14} height={14} /> Clear filters
-            </button>
-          )}
+        <div className="flex items-center justify-between gap-4 py-8 text-sm text-muted">
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
+            <p>
+              Showing <span className="text-ink">{results.length}</span> {results.length === 1 ? "print" : "prints"}
+              {palette && <> in <em className="font-display text-base text-forest-700">{palette}</em></>}
+            </p>
+            {filtered && (
+              <button onClick={clear} className="flex items-center gap-1.5 text-xs uppercase tracking-[0.16em] hover:text-ink">
+                <CloseIcon width={14} height={14} /> Clear filters
+              </button>
+            )}
+          </div>
+          {/* Layout switch: one print per row, or the grid */}
+          <div role="group" aria-label="Layout" className="flex shrink-0 items-center gap-1 rounded-full border border-ink/15 p-1">
+            {(["list", "grid"] as const).map((v) => {
+              const Icon = v === "list" ? ListIcon : GridIcon;
+              return (
+                <button
+                  key={v}
+                  onClick={() => setView(v)}
+                  aria-pressed={view === v}
+                  aria-label={v === "list" ? "List view" : "Grid view"}
+                  className={`grid h-8 w-8 place-items-center rounded-full transition-colors ${view === v ? "bg-forest-800 text-ivory" : "text-ink/60 hover:text-forest-700"}`}
+                >
+                  <Icon width={16} height={16} />
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {results.length === 0 ? (
           <div className="py-24 text-center">
-            <p className="font-display text-4xl">Nothing in this combination — yet.</p>
+            <p className="font-display text-4xl">Nothing in this combination yet.</p>
             <button onClick={clear} className="btn btn-ghost-dark mt-8">Show all prints</button>
+          </div>
+        ) : view === "list" ? (
+          <div className="grid gap-8 lg:gap-10">
+            {results.map((p, i) =>
+              i < 2 ? (
+                <ProductListItem key={p.slug} product={p} priority={i === 0} />
+              ) : (
+                <Reveal key={p.slug}>
+                  <ProductListItem product={p} />
+                </Reveal>
+              ),
+            )}
           </div>
         ) : (
           <div className="grid grid-cols-2 gap-x-4 gap-y-14 sm:gap-x-6 lg:grid-cols-3 lg:gap-x-10 lg:gap-y-20">
@@ -131,28 +162,17 @@ function FragmentWithInterstitial({ index, show, children }: { index: number; sh
   return (
     <>
       {children}
-      {/* Editorial cards keep the unfiltered 9-print grid even: 9 + 2-col + 1-col = 12 slots */}
+      {/* The Print Library tile keeps the unfiltered 8-print grid even: two columns wide on phones (8 + 2 = 10),
+          one tile in the three-column desktop grid (8 + 1 = 9) */}
       {show && index === 3 && (
-        <Reveal className="col-span-2">
+        <Reveal className="col-span-2 lg:col-span-1">
           <Link href="/prints" className="group relative flex aspect-[16/10] h-full flex-col justify-end overflow-hidden rounded-[28px] p-8 text-ivory sm:p-12 lg:aspect-auto">
             <Image src={MEDIA.jharokha} alt="" fill sizes="(min-width:1024px) 60vw, 100vw" className="object-cover transition-transform duration-[1.6s] group-hover:scale-105" />
             <span className="absolute inset-0 bg-gradient-to-t from-forest-950/90 via-forest-950/40 to-transparent" />
             <span className="relative eyebrow text-gold">The Print Library</span>
-            <span className="relative mt-3 max-w-md font-display text-[2.2rem] leading-tight lg:text-[3rem]">Every print has a story worth knowing.</span>
+            <span className="relative mt-3 max-w-md font-display text-[2.2rem] leading-tight">Every print has a story worth knowing.</span>
             <span className="relative mt-5 inline-flex items-center gap-2 text-[0.7rem] uppercase tracking-[0.2em] text-gold-soft">
               Read the stories <ArrowIcon />
-            </span>
-          </Link>
-        </Reveal>
-      )}
-      {show && index === 7 && (
-        <Reveal>
-          <Link href="/#gifting" className="group flex aspect-[4/5] flex-col justify-end rounded-t-full bg-forest-800 p-6 text-ivory sm:p-10">
-            <GiftIcon className="h-9 w-9 text-gold" />
-            <span className="eyebrow mt-6 text-gold">Gifting</span>
-            <span className="mt-3 font-display text-[1.6rem] leading-tight sm:text-[2rem]">Beautifully boxed, with a handwritten note.</span>
-            <span className="mt-5 inline-flex items-center gap-2 text-[0.68rem] uppercase tracking-[0.2em] text-gold-soft">
-              Gift a set <ArrowIcon />
             </span>
           </Link>
         </Reveal>

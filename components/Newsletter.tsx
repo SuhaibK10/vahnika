@@ -10,7 +10,7 @@ export function Newsletter({
   tone = "dark",
   cta = "Subscribe",
   placeholder = "Your email address",
-  success = "Thank you — your first letter is on its way.",
+  success = "Thank you. Your first letter is on its way.",
 }: Props) {
   const [done, setDone] = useState(false);
   const dark = tone === "dark";
